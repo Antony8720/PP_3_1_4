@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"/>
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+</head>
+<body>
+<h2>User</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Department</th>
+    </tr>
+        <tr>
+            <td th:text="${user.getId()}"></td>
+            <td th:text="${user.getUsername()}"></td>
+            <td th:text="${user.getSurname()}"></td>
+            <td th:text="${user.getDepartment()}"></td>
+        </tr>
+</table>
+<br>
+<a th:href="@{/admin/update(id=${user.getId()})}">Update</a>
+<br>
+<a th:href="@{/admin/delete(id=${user.getId()})}">Delete</a>
+<br>
+<a th:href="@{/logout}">Logout</a>
+</body>
+</html>
