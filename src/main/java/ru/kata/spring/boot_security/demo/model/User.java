@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,34 +27,54 @@ public class User implements UserDetails {
     @Column(name = "surname")
     private String surname;
 
-    @Column(name = "department")
-    private String department;
+    @Column(name = "age")
+    private int age;
 
     @Column(name = "password")
     private String password;
 
+    @Column(name = "email")
+    private String email;
+
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public User(Long id, String username, String surname, String department, String password, Set<Role> roles) {
-        this.id = id;
-        this.username = username;
-        this.surname = surname;
-        this.department = department;
-        this.password = password;
-        this.roles = roles;
     }
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @Fetch(FetchMode.JOIN)
     private Set<Role> roles;
 
     public User() {
     }
 
+    public User(Long id, String username, String surname, int age, String password, String email, Set<Role> roles) {
+        this.id = id;
+        this.username = username;
+        this.surname = surname;
+        this.age = age;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
 
     public Set<Role> getRoles() {
         return roles;
@@ -83,12 +105,13 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getDepartment() {
-        return department;
-    }
+    public String getAllRolesToString() {
+        String rolesString = new String();
+        for (Role role: roles) {
+            rolesString += role.toString() + " ";
+        }
 
-    public void setDepartment(String department) {
-        this.department = department;
+        return rolesString;
     }
 
     @Override
