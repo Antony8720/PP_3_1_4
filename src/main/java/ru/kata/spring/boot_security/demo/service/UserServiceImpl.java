@@ -16,10 +16,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
+
 
 
     @Override
@@ -30,8 +34,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User user) {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void update(User user) {
         userRepository.save(user);
     }
 
