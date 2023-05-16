@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     @Transactional(readOnly = true)
     public List<User> listAll() {
@@ -59,8 +58,6 @@ public class UserServiceImpl implements UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
-
-
 
 
 }
