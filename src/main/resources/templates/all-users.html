@@ -108,7 +108,7 @@
                     <div class="modal fade" th:id="${'edituser'+user.getId()}" tabindex="-1"
                          role="dialog"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <form th:action="@{/admin/add}" th:object="${user}" method="POST">
+                      <form th:action="@{/admin/update}" th:object="${user}" method="POST">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
