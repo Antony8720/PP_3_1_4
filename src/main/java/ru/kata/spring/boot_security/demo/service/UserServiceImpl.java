@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.dao.UserRepository;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.util.UserNotFoundException;
 
 import java.util.List;
 
@@ -46,12 +47,13 @@ public class UserServiceImpl implements UserService {
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         }
         userRepository.save(user);
+
     }
 
     @Override
     @Transactional(readOnly = true)
     public User get(Long id) {
-        return userRepository.findById(id).get();
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
     }
 
     @Override
@@ -62,7 +64,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        return user;
+
     }
 
 
