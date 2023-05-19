@@ -3,6 +3,7 @@ package ru.kata.spring.boot_security.demo.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,8 @@ public class UserController {
     }
 
     @GetMapping()
-    public String showUser(Principal principal, Model model) {
-        User user = userService.getUserByEmail(principal.getName());
+    public String showUser(@AuthenticationPrincipal User userAuth, Model model) {
+        User user = userService.getUserByEmail(userAuth.getEmail());
         model.addAttribute("user", user);
         model.addAttribute("role", user.getAllRolesToString());
         return "show-user";

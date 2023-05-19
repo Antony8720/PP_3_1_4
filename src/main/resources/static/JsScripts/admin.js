@@ -21,7 +21,7 @@ $(document).ready(function () {
 });
 
 function getDatabase() {
-    fetch("/api/users")
+    fetch("/api/admin/users")
         .then((response) => {
             return response.json();
         })
@@ -58,7 +58,7 @@ function getDatabase() {
 // DELETE-request
 async function delUser(id) {
     try {
-        const url = "/api/user/" + id;
+        const url = "/api/admin/users/" + id;
         const response = await fetch(url, {
             method: 'DELETE'
         }).then(resp => console.log(resp)).then(getDatabase);
@@ -69,7 +69,7 @@ async function delUser(id) {
 
 //POST-request with new user
 async function newUser() {
-    const url = "/api/addUser";
+    const url = "/api/admin/users/";
 
     const form = document.querySelector('.form-new-user');
 
@@ -102,9 +102,12 @@ async function newUser() {
         }).then(resp => resp.json()).then(data => {
             form.reset();
         })
+
     } catch (err) {
         console.log(err)
     }
+    getDatabase();
+    usersTableCard.click();
 
 }
 
@@ -134,7 +137,7 @@ newUserCard.click(() => {
 //function for show modal
 function showEditModal(id) {
     let body = "";
-    let url = "/api/user/" + id;
+    let url = "/api/admin/users/" + id;
     fetch(url)
         .then((resp) => resp.json())
         .then((data) => {
@@ -204,7 +207,7 @@ async function editInfoUser() {
     console.log(data);
 
     try {
-        const response = await fetch("/api/user", {
+        const response = await fetch("/api/admin/users", {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
